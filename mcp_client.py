@@ -11,6 +11,8 @@ from mcp.client.stdio import stdio_client
 #mcp client is what allows to access functionality inside mcp server.
 #somewhere in our code base we will be using or calling fucntions of mcp client which we are making whic helps us interact with mcp server.
 #uv run mcp_client.py will only run this client 
+
+#tools servr the llm , #resources are generally going to server app , #prompts server users. 
 class MCPClient:
     def __init__(
         self,
@@ -59,11 +61,14 @@ class MCPClient:
 
     async def list_prompts(self) -> list[types.Prompt]:
         # TODO: Return a list of prompts defined by the MCP server
-        return []
+         result = await self.session().list_prompts()
+         return result.prompts
 
     async def get_prompt(self, prompt_name, args: dict[str, str]):
         # TODO: Get a particular prompt defined by the MCP server
-        return []
+        result = await self.session().get_prompt(prompt_name, args)
+        return result.messages
+        
 
 
 #suppose i wrote on claude cli that what is inside @xyz document , claude will baically get all data in prompt itself ,it wont have to call mcp tool , mcp resouce showed data to client.
